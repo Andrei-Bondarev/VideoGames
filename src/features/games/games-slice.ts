@@ -1,23 +1,22 @@
-import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
 import type {RootState} from "../../store";
 import {Filters, Game} from ".";
-import axios from "axios";
+import axiosInstance from "src/axiosConfig";
+import {ApiKey} from "src/constants";
 
 export const fetchGames = createAsyncThunk<Array<Game>>("games/fetchGames", async () => {
-    const response = await axios.get(
-        `https://api.rawg.io/api/games?key=8969d9d889774691accc2cd4788c8df0`
-    );
+    const response = await axiosInstance.get(`/games?key=` + ApiKey);
     return response.data.results;
 });
 
 export const fetchGamesWithFilters = createAsyncThunk<Array<Game>, Filters>(
     "games/fetchGamesWithFilters",
     async (filters) => {
-        let url = `https://api.rawg.io/api/games?key=8969d9d889774691accc2cd4788c8df0`;
+        let url = `/games?key=` + ApiKey;
         if (filters.platformId) url += `&platforms=${filters.platformId}`;
         if (filters.genreId) url += `&genres=${filters.genreId}`;
-        const response = await axios.get(url);
+        const response = await axiosInstance.get(url);
         return response.data.results;
     }
 );
@@ -75,3 +74,8 @@ export const {toggleLoading, error} = gamesSlice.actions;
 export const selectLoading = (state: RootState) => state.games.loading;
 export const selectError = (state: RootState) => state.games.error;
 export const selectGames = (state: RootState) => state.games.items;
+export const selectGameById = (gameId: number) =>
+    createSelector(
+        (state: RootState) => state.games.items,
+        (items) => items.find((item) => item.id === gameId)
+    );

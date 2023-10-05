@@ -1,13 +1,6 @@
 import {useEffect, useRef} from "react";
 import {useAppDispatch, useAppSelector} from "src/store";
-import {
-    Filters,
-    fetchGames,
-    fetchGamesWithFilters,
-    selectError,
-    selectGames,
-    selectLoading
-} from ".";
+import {fetchGames, fetchGamesWithFilters, selectError, selectGames, selectLoading} from ".";
 import {selectGenreByName} from "../genres";
 import {selectPlatformByName} from "../platforms";
 

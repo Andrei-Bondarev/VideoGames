@@ -1,4 +1,5 @@
 import React from "react";
+import {persistor, store} from "./store";
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
 import RootPage from "./pages/root-page";
 import ErrorPage from "./pages/error-page";
@@ -9,7 +10,9 @@ import ThemeProvider from "@mui/material/styles/ThemeProvider";
 import CssBaseline from "@mui/material/CssBaseline/CssBaseline";
 import PlatformsPage from "./pages/platforms-page";
 import {Provider} from "react-redux";
-import {store} from "./store";
+import GamePage from "./pages/game-page";
+import {CircularProgress} from "@mui/material";
+import {PersistGate} from "redux-persist/integration/react";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +23,11 @@ const router = createBrowserRouter([
             {
                 path: "",
                 element: <HomePage />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "games/:gameId",
+                element: <GamePage />,
                 errorElement: <ErrorPage />
             },
             {
@@ -51,7 +59,9 @@ const App = () => (
     <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Provider store={store}>
-            <RouterProvider router={router} />
+            <PersistGate loading={<CircularProgress />} persistor={persistor}>
+                <RouterProvider router={router} />
+            </PersistGate>
         </Provider>
     </ThemeProvider>
 );

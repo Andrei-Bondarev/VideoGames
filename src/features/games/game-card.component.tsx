@@ -1,11 +1,13 @@
 import {Card, CardContent, CardMedia, Typography} from "@mui/material";
 import React from "react";
+import {Link} from "react-router-dom";
 
 type GameCardProps = {
     title: string;
     image: string;
+    id: number;
 };
-const GameCard: React.FC<GameCardProps> = ({title, image}) => {
+const GameCard: React.FC<GameCardProps> = ({title, image, id}) => {
     return (
         <Card sx={{minWidth: 375, minHeight: 300, borderRadius: "20px"}}>
             <CardMedia
@@ -17,7 +19,7 @@ const GameCard: React.FC<GameCardProps> = ({title, image}) => {
                 title="green iguana"
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
+                <Typography gutterBottom variant="h5" component={Link} to={`/games/${id}`}>
                     {title || "Portal 2"}
                 </Typography>
             </CardContent>

@@ -2,14 +2,13 @@ import {createAsyncThunk, createSelector, createSlice} from "@reduxjs/toolkit";
 import type {PayloadAction} from "@reduxjs/toolkit";
 import type {RootState} from "../../store";
 import {Platform} from ".";
-import axios from "axios";
+import axiosInstance from "src/axiosConfig";
+import {ApiKey} from "src/constants";
 
 export const fetchPlatforms = createAsyncThunk<Array<Platform>>(
     "platforms/fetchPlatforms",
     async () => {
-        const response = await axios.get(
-            `https://api.rawg.io/api/platforms?key=8969d9d889774691accc2cd4788c8df0`
-        );
+        const response = await axiosInstance.get(`/platforms?key=` + ApiKey);
         return response.data.results;
     }
 );

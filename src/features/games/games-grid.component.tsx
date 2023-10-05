@@ -1,7 +1,7 @@
 import {CircularProgress, Grid} from "@mui/material";
 import React from "react";
 import {GameCard} from "./game-card.component";
-import {useFetchGames, useFetchGamesWithFilters} from "./hooks";
+import {useFetchGamesWithFilters} from "./hooks";
 import {useNavigate, useParams} from "react-router-dom";
 
 const GamesGrid = () => {
@@ -14,7 +14,7 @@ const GamesGrid = () => {
         <Grid container spacing={4}>
             {games.map((item) => (
                 <Grid key={item.id} item xs={3}>
-                    <GameCard title={item.name} image={item.background_image} />
+                    <GameCard id={item.id} title={item.name} image={item.background_image} />
                 </Grid>
             ))}
         </Grid>
